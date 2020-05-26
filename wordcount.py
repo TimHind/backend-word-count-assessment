@@ -23,7 +23,7 @@ order to avoid code duplication within print_words() and print_top(). It
 should return a dictionary with words as keys, and their counts as values.
 """
 
-# Your name, plus anyone who helped you with this assignment
+# Tim Hindman (Help: Mike A./ Janelle K.)
 # Give credit where credit is due.
 __author__ = "???"
 
@@ -32,22 +32,45 @@ import sys
 
 def create_word_dict(filename):
     """Returns a word/count dict for the given file."""
-    # Your code here
-    return
+    wordcount = {}
+    with open(filename, 'r') as f:
+        for line in f:
+            words = line.lower().split() 
+            for word in words:
+                if word in wordcount:
+                    wordcount[word] += 1
+                else:
+                    wordcount[word] = 1
+        return wordcount
+
+    
 
 
 def print_words(filename):
     """Prints one per line '<word> : <count>', sorted
     by word for the given file.
     """
-    # Your code here
-    return
-
+    word_count = create_word_dict(filename)
+    words = sorted(word_count.keys())
+    for word in words:
+        counter = word_count[word]
+        print(word, ": ", counter)
+ 
+def word_counter(t):
+    count = t[1]
+    return count
 
 def print_top(filename):
     """Prints the top count listing for the given file."""
-    # Your code here
-    return
+    word_count = create_word_dict(filename)
+    value = sorted(word_count.items(), key=word_counter, reverse=True)
+
+    for values in value[0:20]:
+        word = values[0]
+        count = values[1]
+        print(word, ": ", count)
+
+    
 
 
 # This basic command line argument parsing code is provided and calls
@@ -59,7 +82,7 @@ def main(args):
 
     option = args[0]
     filename = args[1]
-
+    
     if option == '--count':
         print_words(filename)
     elif option == '--topcount':
